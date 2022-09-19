@@ -11,7 +11,7 @@ int	main(int argc, char **argv)
 	}
 	while(1)
 	{
-		history = readline("\uE528 ");
+		history = readline("\U0001F34C\U0001F412 ");
 		add_history(history);
 		free(history);
 	}
