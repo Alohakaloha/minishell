@@ -16,9 +16,13 @@ int	main(int argc, char **argv)
 		printf("%s doesn't need more arguments.\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
+	initialize_info(&info);
 	while(1)
 	{
 		info.readline = readline("Mini_hell\U0001F34C\U0001F412 ");
+		if (count_qoutes(&info) == -2)
+			printf("check the quotes!\n");
+		printf("double_quotes: %d single qoutes: %d\n", info.d_qoutes, info.s_qoutes);
 		info.commands = ft_split(info.readline, ' ');
 		printf("first_command: %s\n", info.commands[1]);
 		if (ft_strlen(info.readline) != 0)
