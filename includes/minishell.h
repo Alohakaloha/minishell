@@ -11,8 +11,17 @@ typedef struct s_info
 {
 	char	*readline;
 	char	**commands;
+	int		s_qoutes;
+	int		d_qoutes;
+	int		exit_status;
 }	t_info;
 
-int	parsing(t_info *info);
+int		parsing(t_info *info);
+
+/*----utils.c------------------------*/
+int		count_qoutes(t_info *info);
+
+/*----initialize.c-------------------*/
+void	initialize_info(t_info *info);
 
 #endif
