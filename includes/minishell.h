@@ -10,6 +10,7 @@
 typedef struct s_info
 {
 	char	*readline;
+	char	**commands;
 }	t_info;
 
 int	parsing(t_info *info);
