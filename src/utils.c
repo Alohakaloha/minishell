@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:56:04 by lkavalia          #+#    #+#             */
-/*   Updated: 2022/09/21 13:05:30 by lkavalia         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:24:12 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // -1 for success
 // -2 for not success
-int	count_qoutes(t_info *info)
+void	count_qoutes(t_info *info)
 {
 	int i;
 	int	double_qoutes;
@@ -34,7 +34,7 @@ int	count_qoutes(t_info *info)
 	}
 	info->d_qoutes = double_qoutes;
 	info->s_qoutes = single_qoutes;
-	if (info->d_qoutes % 2 == 0 || info->s_qoutes % 2 == 0)
-		return (-1);
-	return (-2);
+//	if (info->d_qoutes % 2 == 0 || info->s_qoutes % 2 == 0)
+//		return (-1);
+//	return (-2);
 }
