@@ -7,6 +7,8 @@ MAIN =	./src/main.c \
 		./src/utils.c \
 		./src/bananasplit.c \
 		./src/initialize.c \
+		./src/set_error_status.c\
+
 
 OBJS = ${SOURCES:.c=.o}
 

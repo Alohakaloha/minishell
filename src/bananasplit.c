@@ -65,19 +65,53 @@ static char **s_words(size_t w_count, char const *s1, char c, char **splitted)
 	return (splitted);
 }
 
-char	which_quote(const char *s1)
+int	which_quote(const char *s1, int index)
 {
-	int	i;
 
-	i = 0;
-	while (s1[i])
+	while (s1[index])
 	{
-		if (s1[i] == 39 || s1[i] == 34)
-			return (s1[i]);
-		i++;
+		if (s1[index] == 39 || s1[index] == 34)
+			return (s1[index]);
+		index++;
 	}
 	return (1);
 
+}
+
+/**
+ * FUNCTION: (if_quotes_closed) checks for unclosed quotes
+ * 				in the line has read.
+ */
+int	if_quotes_closed(t_info *info, char quote)
+{
+	int	i;
+	int status; // opened == 1 | closed == 0
+	char q;
+
+	i = 0;
+	status = 0;
+	q = quote;
+	printf("q %c\n", q);
+	while (info->readline[i] != '\0')
+	{
+		if (info->readline[i] == q)
+		{
+			status++;
+			if (status == 2)
+			{
+				status = 0;
+				q = which_quote(info->readline, i + 1);
+			}
+		}
+		i++;
+	}
+	printf("status1 %d\n", status);
+	if (status == 1)
+	{
+		info->exit_status = 2;
+		return (1);
+	}
+	return (0);
 }
 
 char **bananasplit(t_info *info)
@@ -86,14 +120,16 @@ char **bananasplit(t_info *info)
 	char 	**splitted;
 	char	quote;
 
-	if (!info->readline)
+	quote = which_quote(info->readline , 0);
+	if (quote == 1)
 		return (NULL);
-	quote = which_quote(info->readline);
-	if (quote == 34)
+	if (if_quotes_closed(info, quote) == 1)
 	{
-		if (info->d_qoutes % 2 != 0)	//Undefined behaviour
-			return (NULL);
+		set_error_str(info, "Syntax Error\n", 2);
+		return (NULL);	//errormessage and set last_exit status
 	}
+	if (info->d_qoutes % 2 != 0) // Undefined behaviour
+		return (NULL);
 	else
 	{
 		if (info->s_qoutes % 2 != 0) //Undefined behaviour

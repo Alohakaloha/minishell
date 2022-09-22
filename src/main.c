@@ -30,15 +30,16 @@ int	main(int argc, char **argv)
 				return (1);
 			printf("split_qoutes: %s\n", info.split_qoutes[0]);
 			printf("split_qoutes: %s\n", info.split_qoutes[1]);
+			printf("split_qoutes: %s\n", info.split_qoutes[2]);
 			free(info.split_qoutes);
 		}
-		else
+/* 		else
 		{
 			info.commands = ft_split(info.readline, ' ');
 			printf("first_command: %s\n", info.commands[0]);
 			printf("first_command: %s\n", info.commands[1]);
 			free(info.commands);
-		}
+		} */
 		if (ft_strlen(info.readline) != 0)
 		{
 			add_history(info.readline);
