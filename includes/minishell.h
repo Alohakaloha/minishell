@@ -10,6 +10,8 @@
 typedef struct s_info
 {
 	char	*readline;
+
+	char	**split_qoutes;
 	char	**commands;
 	int		s_qoutes;
 	int		d_qoutes;
@@ -17,9 +19,11 @@ typedef struct s_info
 }	t_info;
 
 int		parsing(t_info *info);
+char 	**bananasplit(t_info *info);
+char which_quote(const char *s1);
 
 /*----utils.c------------------------*/
-int		count_qoutes(t_info *info);
+void count_qoutes(t_info *info);
 
 /*----initialize.c-------------------*/
 void	initialize_info(t_info *info);

@@ -5,7 +5,8 @@ NAME = minishell
 
 MAIN =	./src/main.c \
 		./src/utils.c \
-		./src/initialize.c
+		./src/bananasplit.c \
+		./src/initialize.c \
 
 OBJS = ${SOURCES:.c=.o}
 
