@@ -75,7 +75,6 @@ int	which_quote(const char *s1, int index)
 		index++;
 	}
 	return (1);
-
 }
 
 /**
