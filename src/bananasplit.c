@@ -1,5 +1,9 @@
 #include "../includes/minishell.h"
 
+/*
+Bananasplit is being used to split the taken string by quotes.
+It handles quotes inside of quotes. If there is no Syntax error it will be stored in the info struct.
+*/
 static int ft_word_count(const char *s1, char c)
 {
 	int w_count;
@@ -127,11 +131,11 @@ char **bananasplit(t_info *info)
 		set_error_str(info, "Syntax Error\n", 2);
 		return (NULL);	//errormessage and set last_exit status
 	}
-	if (info->d_qoutes % 2 != 0) // Undefined behaviour
+	if (info->d_quotes % 2 != 0) // Undefined behaviour
 		return (NULL);
 	else
 	{
-		if (info->s_qoutes % 2 != 0) //Undefined behaviour
+		if (info->s_quotes % 2 != 0) //Undefined behaviour
 			return (NULL);
 	}
 

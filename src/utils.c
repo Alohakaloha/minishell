@@ -6,35 +6,34 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:56:04 by lkavalia          #+#    #+#             */
-/*   Updated: 2022/09/23 15:50:04 by lkavalia         ###   ########.fr       */
+/*   Updated: 2022/09/24 14:06:43 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-// -1 for success
-// -2 for not success
-void	count_qoutes(t_info *info)
+/**
+ * FUNCTION (count_quotes) counts the quotes that are in the
+ * 				input.
+ */
+void	count_quotes(t_info *info)
 {
 	int i;
-	int	double_qoutes;
-	int single_qoutes;
+	int	double_quotes;
+	int single_quotes;
 	
 	i = 0;
-	double_qoutes = 0;
-	single_qoutes = 0;
+	double_quotes = 0;
+	single_quotes = 0;
 	while (info->readline[i] != '\0')
 	{
 		if (info->readline[i] == 34)
-			double_qoutes++;
+			double_quotes++;
 		else if (info->readline[i] == 39)
-			single_qoutes++;
+			single_quotes++;
 		i++;
 	}
-	info->d_qoutes = double_qoutes;
-	info->s_qoutes = single_qoutes;
-//	if (info->d_qoutes % 2 == 0 || info->s_qoutes % 2 == 0)
-//		return (-1);
-//	return (-2);
+	info->d_quotes = double_quotes;
+	info->s_quotes = single_quotes;
 }

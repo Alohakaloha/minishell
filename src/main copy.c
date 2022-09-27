@@ -7,7 +7,7 @@ That is being noted but we decided not to implement because of
 undefined behaviour.
 */
 
-int	main(int argc, char **argv)
+/* int	main(int argc, char **argv)
 {
 	t_info	info;
 //	int i;
@@ -21,8 +21,8 @@ int	main(int argc, char **argv)
 	while(1)
 	{
 		info.readline = readline("Mini_hell\U0001F34C\U0001F412 ");
-//		count_qoutes(&info);	
-		printf("double_quotes: %d single qoutes: %d\n", info.d_qoutes, info.s_qoutes);
+		count_qoutes(&info);	
+		printf("double_quotes: %d single qoutes: %d\n", info.d_quotes, info.s_quotes);
 		if (check_pipes(&info) == 0)
 		{
 			if (pipe_cases(&info) == 1)
@@ -46,4 +46,4 @@ int	main(int argc, char **argv)
 		}
 	}
 	return (0);
-}
+} */
