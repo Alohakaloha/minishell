@@ -6,11 +6,24 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 14:04:35 by lkavalia          #+#    #+#             */
-/*   Updated: 2022/10/08 19:09:41 by lkavalia         ###   ########.fr       */
+/*   Updated: 2022/10/10 21:40:28 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	initialize_bool(t_token *token)
+{
+	token->single_quotes = false;
+	token->double_quotes = false;
+	token->redirect_input = false;
+	token->redirect_input_append = false;
+	token->redirect_output = false;
+	token->redirect_output_append = false;
+	token->dollar_sign = false;
+	token->dollar_question_sign = false;
+	token->pipe = false;
+}
 
 static char	*save_inside_quotes(char *readline, char quote, int next_index)
 {
@@ -97,15 +110,23 @@ void register_the_information(t_token *token, t_info *info)
 	char 	*inside_quotes;
 	int		next_index;
 	int		i;
+	t_token *temp;
 	
 	quote = '0';
 	inside_quotes = NULL;
 	next_index = 0;
 	i = 0;
-	for (int i = 0; info->splitting_positions[i] != -1; i++)
-		printf("split_positions: %d\n", info->splitting_positions[i]);
+	temp = token;
+	while (token != NULL)
+	{
+		initialize_bool(token);
+		token = token->next;
+	}
+	token = temp;
 	if (info->s_quotes != 0 || info->d_quotes !=  0)
 	{
+		for (int i = 0; info->splitting_positions[i] != -1; i++)
+			printf("split_positions: %d\n", info->splitting_positions[i]);
 		while (info->splitting_positions[i] != -1)
 		{
 			if (info->readline[next_index] == '\0')
@@ -119,15 +140,95 @@ void register_the_information(t_token *token, t_info *info)
 			//setting where the quotes are
 			set_quotes(inside_quotes, token, quote);
 			next_index = next_index_finder(info->readline, next_index, quote);
-			printf("quote: %c\n", quote);
+	//		printf("quote: %c\n", quote);
 			free(inside_quotes);
 			i += 2;
-			printf("info->splitting_positions[%d] %d next_index %d\n", i, info->splitting_positions[i], next_index);
+	//		printf("info->splitting_positions[%d] %d next_index %d\n", i, info->splitting_positions[i], next_index);
 		}
 	}
-	else 
+	if (info->pipes != 0)
 	{
-		printf("hey hey! %s\n", token->token);
+		while (token != NULL)
+		{
+			if (ft_strchr(token->token, '|'))
+			{
+				printf("token has a pipe %s\n", token->token);
+				token->pipe = true;
+				printf("%d\n", token->pipe);
+			}
+			else
+			{
+				printf("no pipe! %s\n", token->token);
+				token->pipe = false;
+			}
+			token = token->next;
+		}
+		token = temp;
 	}
+/* 	printf("redirections_input %d\n redirections_ouput: %d\n", info->redirect_input, info->redirect_output);
+	printf("redirections_i_append %d\n redirections_o_append: %d\n", info->redirect_input_append, info->redirect_output_append);
+	while (token != NULL)
+	{
+		printf("------before_token->token! %s\n", token->token);
+		printf("before_redirecting_input %d\nbefore_redirecting_output %d\n", token->redirect_input, token->redirect_input);
+		printf("before_redirecting_input_append %d\nbefore_redirecting_output_append %d\n", token->redirect_input_append, token->redirect_input_append);
+		token = token->next;
+	}
+	token = temp; */
+//	printf("check the amount of redirections: %d\n %d\n %d\n %d\n", info->redirect_input, info->redirect_output, info->redirect_input_append, info->redirect_output);
+	if (info->redirect_input != 0 || info->redirect_output != 0)
+	{
+		while (token != NULL)
+		{
+			i = 0;
+			printf("------token->token! %s\n", token->token);
+			if (ft_strlen(token->token) < 3)
+			{
+				printf("its less than 3!\n");
+				if (ft_strcmp(token->token, "<<") == 0)
+					token->redirect_input_append = true;
+				if	(ft_strcmp(token->token, "<") == 0)
+					token->redirect_input = true;
+				if (ft_strcmp(token->token, ">>") == 0)
+					token->redirect_output_append = true;
+				if (ft_strcmp(token->token, ">") == 0)
+					token->redirect_output = true;
+			}
+			else
+			{
+				while (token->token[i] != '\0')
+				{
+					if (token->token[i] == '>' && token->token[i + 1] != '>' && token->token[i - 1] != '>')
+						token->redirect_output = true;
+					else if (token->token[i] == '>' && token->token[i + 1] == '>')
+						token->redirect_output_append = true;
+					if (token->token[i] == '<' && token->token[i + 1] != '<' && token->token[i - 1] != '<')
+						token->redirect_input = true;
+					else if (token->token[i] == '<' && token->token[i + 1] == '<')
+						token->redirect_input_append = true;
+					i++;
+				}
+			}
+			printf("check_redirecting_input %d\ncheck_redirecting_output %d\n", token->redirect_input, token->redirect_output);
+			printf("check_redirecting_input_append %d\ncheck_redirecting_output_append %d\n", token->redirect_input_append, token->redirect_output_append);
+			token = token->next;
+		}
+		token = temp;
+	}
+	if (info->dollar_question_sign != 0 || info->dollar_sign != 0)
+	{
+		while (token != NULL)
+		{
+			i = 0;
+			while (token->token[i] != '\0')
+			{
+				if (token->token[i] == '$' && token->token[i + 1] == '?')
+				i++;
+			}
+			token = token->next;
+		}
+		token = temp;
+	}
+	printf("$: %d $? %d\n", info->dollar_sign, info->dollar_question_sign);
 	printf("outside\n");
 }

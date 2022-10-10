@@ -80,8 +80,10 @@ int	check_pipes(t_info *info)
 	while(info->readline[i])
 	{
 		if (info->readline[i] == '|')
-			return (0);
+			info->pipes++;
 		i++;
 	}
+	if (info->pipes != 0)
+		return (0);
 	return (1);
 }

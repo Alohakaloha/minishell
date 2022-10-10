@@ -44,9 +44,9 @@ int main(int argc, char **argv)
 		printf("%s doesn't need more arguments.\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	initialize_info(&info);
 	while (1)
 	{
+		initialize_info(&info);
 		token = malloc(sizeof(t_token));
 		info.readline = readline("Mini_hell\U0001F34C\U0001F412 ");
 		if (check_pipes(&info) == 0) // Checks if there are pipes and there are no problems with them.
@@ -54,6 +54,8 @@ int main(int argc, char **argv)
 			if (pipe_cases(&info) == 1)
 				printf("Syntax error | ");
 		}
+		count_redirections(&info);
+		count_dollar_signs(&info);
 		count_quotes(&info); // COUNTS THE QUOTES
 		printf("double_quotes: %d single qoutes: %d\n", info.d_quotes, info.s_quotes);
 		if (info.d_quotes != 0 || info.s_quotes != 0)
