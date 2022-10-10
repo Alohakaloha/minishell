@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:56:04 by lkavalia          #+#    #+#             */
-/*   Updated: 2022/09/24 14:06:43 by lkavalia         ###   ########.fr       */
+/*   Updated: 2022/10/03 15:32:57 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,14 @@ void	count_quotes(t_info *info)
 	}
 	info->d_quotes = double_quotes;
 	info->s_quotes = single_quotes;
+}
+
+int	ft_strcmp(const char *s1, const	char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i] && (s1[i] != '\0' || s2[i] != '\0'))
+		i++;
+	return (s1[i] - s2[i]);
 }
