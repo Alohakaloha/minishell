@@ -5,14 +5,14 @@ NAME = minishell
 
 MAIN =	./src/main.c \
 		./src/utils.c \
-		./src/bananasplit.c \
 		./src/edited_split.c \
 		./src/freeing.c \
 		./src/initialize.c \
 		./src/set_error_status.c\
 		./src/check_pipes.c \
+		./src/check_quotes.c \
 		./src/initializing_list.c \
-		./src/register_the_information.c
+		./src/lexer.c \
 
 
 OBJS = ${SOURCES:.c=.o}

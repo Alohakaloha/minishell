@@ -8,21 +8,25 @@
 # include "../libft/libft.h"
 # include <stdbool.h>
 
+//	pipe = 1
+//	file_name = 2
+//	command = 3
+//	redirection_input = 4
+//	redirection_output = 5
+//	redirect_append_input = 6
+//	redirect_append_output = 7
+//	text = 8
+//	space = 0
 typedef struct s_token
 {
 	char		*token;
+	
 //	int			pipe;
 //	int			single_quotes;
 //	int			double_quotes;
 	bool		single_quotes;
 	bool		double_quotes;
-	bool		redirect_input;
-	bool		redirect_output;
-	bool		redirect_input_append;
-	bool		redirect_output_append;
-	bool		dollar_sign;
-	bool		dollar_question_sign;
-	bool		pipe;
+	unsigned int 	indentifier;
 	struct 		s_token *next;
 }	t_token;
 
@@ -30,6 +34,7 @@ typedef struct s_info
 {
 	char	*readline;
 	int		word_count;
+	char	**banana_split;
 	char	**split_text;
 	int		*splitting_positions;
 	char	**commands;
@@ -43,9 +48,15 @@ typedef struct s_info
 	int		dollar_sign;
 	int		dollar_question_sign;
 	int		pipes;
+	bool	error;
+	int		trigger;
+	int		start;
 	int		exit_status;
 	t_token *token;
 }	t_info;
+
+void lexer(t_info *info, t_token **token);
+int check_quotes(t_info *info);
 
 /*----edited_split.c---------------------*/
 char **ft_edited_split(char const *s1, char c, t_info *info);
@@ -73,7 +84,8 @@ void	count_dollar_signs(t_info *info);
 void	initialize_info(t_info *info);
 
 /*----initializing_list.c-------------------*/
-t_token	*create_linked_list(t_info *info, t_token *token);
+t_token	*attach_the_last(t_token *token);
+//t_token	*create_linked_list(t_info *info, t_token *token);
 
 /*----register_the_information.c-------------*/
 void	register_the_information(t_token *token, t_info *info);
