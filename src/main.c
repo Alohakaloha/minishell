@@ -36,6 +36,7 @@ int main(int argc, char **argv)
 {
 	t_info	info;
 	t_token	*token;
+	t_token	*free_token;
 
 	token = NULL;
 	if (argc != 1)
@@ -43,38 +44,55 @@ int main(int argc, char **argv)
 		printf("%s doesn't need more arguments.\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	initialize_info(&info);
 	while (1)
 	{
+		initialize_info(&info);
 		token = malloc(sizeof(t_token));
+		free_token = token;
 		info.readline = readline("Mini_hell\U0001F34C\U0001F412 ");
-		if (check_pipes(&info) == 0) //Checks if there are pipes and there are no problems with them.
+		if (check_pipes(&info) == 0) // Checks if there are pipes and there are no problems with them.
 		{
 			if (pipe_cases(&info) == 1)
 			{
-				printf("Syntax error | ");
-				return (EXIT_FAILURE);
+				info.error = true;
+				printf("Syntax error | \n");
 			}
 		}
+		count_redirections(&info);
+		count_dollar_signs(&info);
 		count_quotes(&info); // COUNTS THE QUOTES
-		printf("double_quotes: %d single qoutes: %d\n", info.d_quotes, info.s_quotes);
 		if (info.d_quotes != 0 || info.s_quotes != 0)
 		{
-			info.split_text = bananasplit(&info);
-			if (info.split_text == NULL)
-				return (1);
-			for(int i = 0; info.split_text[i]; i++ )
-				printf("split_quotes: %s\n", info.split_text[i]);
+			if (check_quotes(&info) == 1)
+			{
+				info.error = true;
+				printf("Quotes are not closed!\n");
+			}
 		}
-		else
-			info.split_text = ft_split(info.readline, ' ');
-		token = create_linked_list(&info, token);
-		free(info.split_text);
-		free(token);
+		printf("double_quotes: %d single qoutes: %d\n", info.d_quotes, info.s_quotes);
+		if (info.error == false)
+		{
+			lexer(&info, &token);
+			while (token != NULL)
+			{
+				printf("full list: %s ", token->token);
+				if (token->double_quotes == true)
+					printf("%d\n", token->double_quotes);
+				else if (token->single_quotes == true)
+					printf("%d\n", token->single_quotes);
+				else
+					printf("\n");
+				token = token->next;
+			}
+			token = free_token;
+			freeing_tokens(&info, token);
+		}
+		printf("after the !register_the_information!\n");
+//		freeing_split_text(&info);
 		if (ft_strlen(info.readline) != 0)
 		{
 			add_history(info.readline);
-//			free(info.readline);
+			free(info.readline);
 		}
 	}
 	return (0);

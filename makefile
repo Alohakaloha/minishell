@@ -5,11 +5,14 @@ NAME = minishell
 
 MAIN =	./src/main.c \
 		./src/utils.c \
-		./src/bananasplit.c \
+		./src/edited_split.c \
+		./src/freeing.c \
 		./src/initialize.c \
 		./src/set_error_status.c\
 		./src/check_pipes.c \
-		./src/initializing_list.c
+		./src/check_quotes.c \
+		./src/initializing_list.c \
+		./src/lexer.c \
 
 
 OBJS = ${SOURCES:.c=.o}
@@ -20,7 +23,7 @@ LIBFT_NAME = libft.a
 $(NAME)	:	$(SOURCES)
 	@make  -sC ./libft
 	@echo "Compiling minishell..."
-	$(CC) $(CFLAGS) $(MAIN) $(SOURCES) -L$(LIBFT) -lft -lreadline -g -o $(NAME)
+	$(CC) $(CFLAGS) $(MAIN) $(SOURCES) -L$(LIBFT) -g -lft -lreadline -o $(NAME)
 	@echo "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo\n\
 oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo\n\
 oooooooooooooooooooooooooooooooddoooodddddoooooooooooooooooooooooooooooooooooooo\n\

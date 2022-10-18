@@ -6,13 +6,13 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 15:08:13 by lkavalia          #+#    #+#             */
-/*   Updated: 2022/09/26 17:31:40 by lkavalia         ###   ########.fr       */
+/*   Updated: 2022/10/17 17:03:54 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	count_items(char **splitted_text)
+/* static int	count_items(char **splitted_text)
 {
 	int	total;
 
@@ -20,9 +20,9 @@ static int	count_items(char **splitted_text)
 	while (splitted_text[total] != NULL)
 		total++;
 	return (total);
-}
+} */
 
-static	t_token *attach_the_last(char *token)
+t_token *attach_the_last(t_token *token)
 {
 	t_token	*temp;
 
@@ -32,12 +32,12 @@ static	t_token *attach_the_last(char *token)
 		printf("allocation failed!\n");
 		exit(1);
 	}
-	temp->token = token;
+	temp = token;
 	temp->next = NULL;
 	return (temp);
 }
 
-static t_token  *attach_the_rest(t_token *token, char **text,int items)
+/* static t_token  *attach_the_rest(t_token *token, char **text,int items)
 {
 	t_token *temp;
 	int		i;
@@ -86,4 +86,4 @@ t_token	 *create_linked_list(t_info *info, t_token *token)
 	printf("total: %d\n", items);
 	print_stack_a(token);
 	return (token);
-}
+} */
