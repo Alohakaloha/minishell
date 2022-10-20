@@ -26,21 +26,16 @@ typedef struct s_token
 //	int			double_quotes;
 	bool		single_quotes;
 	bool		double_quotes;
-	unsigned int 	indentifier;
+	int			index;
+	int 		indentifier;
 	struct 		s_token *next;
 }	t_token;
 
 typedef struct s_info
 {
 	char	*readline;
-	int		word_count;
-	char	**banana_split;
-	char	**split_text;
-	int		*splitting_positions;
-	char	**commands;
 	int		s_quotes;
 	int		d_quotes;
-	int		important_quotes;
 	int		redirect_input;
 	int		redirect_output;
 	int		redirect_input_append;
@@ -55,15 +50,12 @@ typedef struct s_info
 	t_token *token;
 }	t_info;
 
-void lexer(t_info *info, t_token **token);
+
+t_token *lexer(t_info *info, t_token *token);
 int check_quotes(t_info *info);
 
-/*----edited_split.c---------------------*/
-char **ft_edited_split(char const *s1, char c, t_info *info);
-
 /*----freeing.c----------------------*/
-void freeing_split_text(t_info *info);
-void	freeing_tokens(t_info *info, t_token *token);
+void	freeing_tokens(t_token *token);
 
 int		parsing(t_info *info);
 int		check_pipes(t_info *info);
@@ -87,7 +79,7 @@ void	initialize_info(t_info *info);
 t_token	*attach_the_last(t_token *token);
 //t_token	*create_linked_list(t_info *info, t_token *token);
 
-/*----register_the_information.c-------------*/
-void	register_the_information(t_token *token, t_info *info);
+/*----register_tokens.c-------------*/
+void	register_tokens(t_info *info, t_token **token);
 
 #endif

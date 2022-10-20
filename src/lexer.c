@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:38:53 by lkavalia          #+#    #+#             */
-/*   Updated: 2022/10/18 21:13:30 by lkavalia         ###   ########.fr       */
+/*   Updated: 2022/10/20 19:31:48 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_token *attach_token_end(t_token *token)
 	}
 	temp->double_quotes = false;
 	temp->single_quotes = false;
+	temp->index = 0;
 	temp->next = NULL;
 	token->next = temp;
 	return (token);
@@ -178,28 +179,34 @@ static	t_token *triggered(t_info *info, t_token *token)
 	return (token);
 }
 
-void	lexer(t_info *info, t_token **token)
+t_token	 *lexer(t_info *info, t_token *token)
 {
 	int i;
 	t_token *temp_token;
 
 	i = 0;
-	temp_token = (*token);
+	token = malloc(sizeof(t_token));
+	token->next = NULL;
+	token->single_quotes = false;
+	token->double_quotes = false;
+	temp_token = token;
+	info->trigger = 0;
 	while (info->readline[i] != '\0')
 	{
 		if (info->readline[i] == 34 || info->readline[i] == 39)
-			i = quotes(info, i, token);
+			i = quotes(info, i, &token);
 		else if (info->readline[i] == ' ')
-			i = space(info, i, token);
+			i = space(info, i, &token);
 		else if ((info->readline[i] == '<' && info->readline[i + 1] == '<') || (info->readline[i] == '>' && info->readline[i + 1] == '>'))
-			i = redirect_append(info, i, token);
+			i = redirect_append(info, i, &token);
 		else if (info->readline[i] == '<' || info->readline[i] == '>' || info->readline[i] == '|')
-			i = rest_of_the_cases(info, i, token);
+			i = rest_of_the_cases(info, i, &token);
 		if (info->trigger == 1)
-			(*token) = triggered(info, *token);
+			token = triggered(info, token);
 		i++;
 	}
-	(*token)->token = ft_substr(info->readline, info->start, i - info->start);
+	token->token = ft_substr(info->readline, info->start, i - info->start);
 	printf("goes through\n");
-	(*token) = temp_token;
+	token = temp_token;
+	return (token);
 }

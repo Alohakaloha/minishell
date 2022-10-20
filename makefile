@@ -5,10 +5,10 @@ NAME = minishell
 
 MAIN =	./src/main.c \
 		./src/utils.c \
-		./src/edited_split.c \
 		./src/freeing.c \
 		./src/initialize.c \
 		./src/set_error_status.c\
+		./src/register_tokens.c\
 		./src/check_pipes.c \
 		./src/check_quotes.c \
 		./src/initializing_list.c \

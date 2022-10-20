@@ -47,8 +47,6 @@ int main(int argc, char **argv)
 	while (1)
 	{
 		initialize_info(&info);
-		token = malloc(sizeof(t_token));
-		free_token = token;
 		info.readline = readline("Mini_hell\U0001F34C\U0001F412 ");
 		if (check_pipes(&info) == 0) // Checks if there are pipes and there are no problems with them.
 		{
@@ -61,6 +59,7 @@ int main(int argc, char **argv)
 		count_redirections(&info);
 		count_dollar_signs(&info);
 		count_quotes(&info); // COUNTS THE QUOTES
+		token = free_token;
 		if (info.d_quotes != 0 || info.s_quotes != 0)
 		{
 			if (check_quotes(&info) == 1)
@@ -72,10 +71,19 @@ int main(int argc, char **argv)
 		printf("double_quotes: %d single qoutes: %d\n", info.d_quotes, info.s_quotes);
 		if (info.error == false)
 		{
-			lexer(&info, &token);
+			printf("check pipes: %d\n", info.pipes);
+			printf("check s_quotes: %d\n", info.s_quotes);
+			printf("check d_quotes: %d\n", info.d_quotes);
+			printf("check redirect_input: %d\n", info.redirect_input);
+			printf("check redirect_output: %d\n", info.redirect_output);
+			printf("check redirect_input_append: %d\n", info.redirect_input_append);
+			printf("check redirect_output_append: %d\n", info.redirect_output_append);
+			token = lexer(&info, token);
+			free_token = token;
+			register_tokens(&info, &token);
 			while (token != NULL)
 			{
-				printf("full list: %s ", token->token);
+				printf("full list[%d]: indentifier: %d %s ", token->index, token->indentifier, token->token);
 				if (token->double_quotes == true)
 					printf("%d\n", token->double_quotes);
 				else if (token->single_quotes == true)
@@ -85,10 +93,10 @@ int main(int argc, char **argv)
 				token = token->next;
 			}
 			token = free_token;
-			freeing_tokens(&info, token);
+			freeing_tokens(token);
+			token = free_token;
 		}
 		printf("after the !register_the_information!\n");
-//		freeing_split_text(&info);
 		if (ft_strlen(info.readline) != 0)
 		{
 			add_history(info.readline);

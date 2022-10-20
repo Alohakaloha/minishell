@@ -6,7 +6,7 @@
 /*   By: lkavalia <lkavalia@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 09:56:04 by lkavalia          #+#    #+#             */
-/*   Updated: 2022/10/10 21:31:46 by lkavalia         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:25:31 by lkavalia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ void	count_quotes(t_info *info)
 	info->s_quotes = single_quotes;
 }
 
+/**
+ * FUNCTION: (ft_strcmp) takes compares s1 and s2 and returns
+ * 				the according value.
+ *	RETURN_VALUES:
+ * 		:	0 When s1 and s2 are equal.
+ * 		: > 0 if the first non-matching character in s1 is greater than that of s2.
+ * 		: < 0 if the first non-matching character in s1 is less than that of s2.
+ */
 int	ft_strcmp(const char *s1, const	char *s2)
 {
 	int	i;
